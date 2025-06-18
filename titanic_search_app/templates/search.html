@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <script src="{% static 'js/script.js' %}"></script>
+  </head>
+  <body>
+
+    <header>
+        <h1><a href="/titanic">{{ title }}</a></h1>
+        <p>タイタニック号乗客者の生存状況のデータが確認できます。</p>
+    </header>
+
+    <section class="form">
+        <form action="" method="GET">
+            {% if error_message %}
+            <p class="err">{{ error_message }}</p>
+            {% endif %}
+
+            <div class="wrap">
+                <div class="box">
+                    <p>年齢<span class="ast">＊必須</span></p>
+                    <div class="box_select">
+                        <select name="age_category">
+                            <option value="" {% if not selected_age_category %}selected{% endif %}>選択してください</option>
+                            <option value="0-4" {% if selected_age_category == '0-4' %}selected{% endif %}>0～4歳</option>
+                            <option value="5-14" {% if selected_age_category == '5-14' %}selected{% endif %}>5～14歳</option>
+                            <option value="15-24" {% if selected_age_category == '15-24' %}selected{% endif %}>15～24歳</option>
+                            <option value="25-44" {% if selected_age_category == '25-44' %}selected{% endif %}>25～44歳</option>
+                            <option value="45-64" {% if selected_age_category == '45-64' %}selected{% endif %}>45～64歳</option>
+                            <option value="65+" {% if selected_age_category == '65+' %}selected{% endif %}>65歳以上</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box">
+                    <p>性別</p>
+                    <div class="box_select">
+                        <select name="sex">
+                            <option value="" {% if not selected_sex %}selected{% endif %}>選択してください</option>
+                            <option value="1" {% if selected_sex == '1' %}selected{% endif %}>男性</option>
+                            <option value="0" {% if selected_sex == '0' %}selected{% endif %}>女性</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box">
+                    <p>旅客クラス</p>
+                    <div class="box_select">
+                        <select name="pclass">
+                            <option value="" {% if not selected_pclass %}selected{% endif %}>選択してください</option>
+                            <option value="1" {% if selected_pclass == '1' %}selected{% endif %}>1等</option>
+                            <option value="2" {% if selected_pclass == '2' %}selected{% endif %}>2等</option>
+                            <option value="3" {% if selected_pclass == '3' %}selected{% endif %}>3等</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box">
+                    <p>生存状況</p>
+                    <div class="box_select">
+                        <select name="survived">
+                            <option value="" {% if not selected_survived %}selected{% endif %}>選択してください</option>
+                            <option value="0" {% if selected_survived == '0' %}selected{% endif %}>死亡</option>
+                            <option value="1" {% if selected_survived == '1' %}selected{% endif %}>生存</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box_submit"><button type="submit">検 索</button></div>
+        </form>
+    </section>
+
+    <section class="list">
+  
+        {% if search_results is not None %} {# search_results（検索結果） が None でない場合のみ表示 #}
+        <p class="result_count"><strong>検索結果：<span class="num">{{ result_count }}件</span></strong>
+        {% if result_count == 0 %}
+            条件に一致する乗客は見つかりませんでした。
+        {% endif %}
+        {% if result_count > 0 %}(<a data-target="explanation" class="anc">各項目の説明</a>){% endif %} 
+        </p>
+        {% endif %} 
+
+        {% if search_results %} {# search_results（検索結果） が空でない場合のみ表示 #}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Sex</th>
+                        <th>Age</th>
+                        <th>SibSp</th>
+                        <th>Parch</th>
+                        <th>Pclass</th>
+                        <th>Cabin Symbol</th>
+                        <th>Embarked</th>
+                        <th>Home/Dest</th>
+                        <th>Survived</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for passenger in search_results %}
+                    <tr>
+                        <td>{{ passenger.name }}</td>
+                        {# Boolean (True/False) を「男性/女性」などに変換して表示 #}
+                        <td>{{ passenger.sex|yesno:"男性,女性,不明" }}</td>
+                        {# None の場合に空白を表示 #}
+                        <td>{{ passenger.age|default:"" }}</td>
+                        <td>{{ passenger.sibsp|default:"" }}</td>
+                        <td>{{ passenger.parch|default:"" }}</td>
+                        <td>{{ passenger.pclass|default:"" }}</td>
+                        <td>{{ passenger.cabin_symbol|default:"" }}</td>
+                        <td>{{ passenger.embarked|default:"" }}</td>
+                        {# フィールド名に '.' が使えないので home_dest に変更したモデル名を使用 #}
+                        <td>{{ passenger.home_dest|default:"" }}</td>
+                        <td>{{ passenger.survived|yesno:"生存,死亡,不明" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+    </section>
+
+
+    {% if result_count > 0 %} {# 結果が0件より多い場合 #} 
+    <section class="explanation" id="explanation">
+        <p>各項目の説明</p>
+        <ul>
+            <li><strong>Name</strong>： 乗客の名前</li>
+            <li><strong>Sex</strong>： 性別</li>
+            <li><strong>Age</strong>： 年齢。一部の乳児は小数値</li>
+            <li><strong>Sibsp</strong>： タイタニック号に同乗している兄弟（Siblings）や配偶者（Spouses）の数</li>
+            <li><strong>Parch</strong>： タイタニック号に同乗している親（Parents）や子供（Children）の数</li>
+            <li><strong>Pclass</strong>： 旅客クラス（<strong>1</strong>＝1等、<strong>2</strong>＝2等、<strong>3</strong>＝3等）。
+            裕福さの目安となる</li>
+            <li><strong>CabinSymbol</strong>： 客室番号の頭文字</li>
+            <li><strong>Embarked</strong>： 出港地（<strong>C</strong>＝Cherbourg：シェルブール、
+            <strong>Q</strong>＝Queenstown：クイーンズタウン、<strong>S</strong>＝Southampton：サウサンプトン）</li>
+            <li><strong>Home/Dest</strong>： 自宅または目的地</li>
+            <li><strong>Survived</strong>：生存状況。（通常はこの数値が目的変数として使われる）</li>
+        </ul>
+    </section>
+    <div class="back-to-top">TOPへ戻る</div>
+    {% endif %} 
+   
+</body>
+</html>

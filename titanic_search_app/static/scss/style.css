@@ -1,0 +1,260 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap");
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+ul[role=list], ol[role=list] {
+  list-style: none;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, button, input, label {
+  line-height: 1.1;
+}
+
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+
+a:not([class]) {
+  -webkit-text-decoration-skip: ink;
+          text-decoration-skip-ink: auto;
+  color: currentColor;
+}
+
+img, picture {
+  max-width: 100%;
+  display: block;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+:target {
+  scroll-margin-block: 5ex;
+}
+
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  color: #444;
+}
+
+header {
+  width: 1000px;
+  margin: 0px auto 0;
+  padding: 40px 0 40px;
+  box-sizing: border-box;
+  background-image: url(../img/ship.png);
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0.4);
+  background-blend-mode: lighten;
+}
+header h1 {
+  text-align: center;
+  font-size: 240%;
+  color: #4f6aa5;
+}
+header h1 > a {
+  text-decoration: none;
+}
+header > p {
+  text-align: center;
+  margin-top: 20px;
+}
+
+section {
+  width: 1000px;
+  margin: 0 auto 0;
+}
+section:last-child {
+  padding-bottom: 80px;
+}
+section.list .result_count {
+  color: #222;
+  margin: 0 0 10px;
+}
+section.list .result_count .num {
+  font-size: 120%;
+  font-weight: 700;
+}
+section.list .result_count strong {
+  font-weight: 500;
+  margin-right: 10px;
+}
+section.list .result_count .anc {
+  text-decoration: underline;
+}
+section.list .result_count .anc:hover {
+  cursor: pointer;
+}
+section.list table {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: #bbe0ee;
+}
+section.list table th {
+  padding: 6px;
+  background: #4f6aa5;
+  border: solid 2px #fff;
+  color: #fff;
+}
+section.list table td {
+  padding: 6px;
+  border: solid 2px #fff;
+  color: #000;
+}
+section.form {
+  margin: 50px auto 50px;
+}
+section.form .err {
+  color: #c00;
+  font-weight: 500;
+  padding: 3px;
+}
+section.form .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #bbe0ee;
+  padding: 15px 20px;
+  border-radius: 6px 6px 0px 0px;
+}
+section.form .box_submit {
+  display: flex;
+  justify-content: center;
+  background-color: #bbe0ee;
+  padding: 5px 0 20px;
+  border-radius: 0px 0px 6px 6px;
+}
+section.form .box_submit > button {
+  width: 130px;
+  min-height: 45px;
+  color: #ffffff;
+  border-radius: 4px;
+  background-image: linear-gradient(0deg, rgb(79, 106, 165), rgb(117, 137, 179));
+  border: 1px solid #4f6aa5;
+  font-size: large;
+  font-weight: 500;
+  opacity: 1;
+  cursor: pointer;
+}
+section.form .box_submit > button:hover {
+  opacity: 0.9;
+}
+section.form .box {
+  width: 24%;
+}
+section.form .box > p {
+  font-size: 100%;
+  color: #2e435c;
+  font-weight: 500;
+  padding-left: 2px;
+}
+section.form .box > p .ast {
+  font-size: 86%;
+  font-weight: 600;
+  color: #c00;
+  margin-left: 4px;
+  display: inline-block;
+}
+section.form .box_select {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 3px auto 0;
+  border: 1px solid #405671;
+  background-color: #fff;
+  border-radius: 2px;
+}
+section.form .box_select select {
+  width: 100%;
+  padding: 8px 40px 8px 8px;
+  color: #555;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  z-index: 1;
+  border: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: none;
+  background: transparent;
+}
+section.form .box_select select::picker-icon {
+  display: none;
+}
+section.form .box_select select option:checked, section.form .box_select select option:hover,
+section.form .box_select select option:focus-visible {
+  background: #8099c4;
+}
+section.form .box_select::before {
+  position: absolute;
+  right: 14px;
+  content: "";
+  width: 12px;
+  height: 8px;
+  background: #8099c4;
+  -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
+          clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+section.form .box_select::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 40px;
+  content: "";
+  border-left: 1px solid #d0deed;
+}
+section.form .box_select select,
+section.form .box_select ::picker(select) {
+  -webkit-appearance: base-select;
+     -moz-appearance: base-select;
+          appearance: base-select;
+}
+section.explanation {
+  margin: 50px auto 100px;
+  padding: 20px 30px 10px;
+  border: 3px #ccc double;
+  border-radius: 8px;
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #4f6aa5;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0; /* 最初は非表示 */
+  transition: opacity 0.3s ease-in-out;
+}
+
+.back-to-top.show {
+  opacity: 1; /* スクロールしたら表示 */
+}
