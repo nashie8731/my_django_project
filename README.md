@@ -268,11 +268,11 @@ urlpatterns = [
 ```bash
 from django.contrib import admin
 from django.urls import path
-from django.urls import path, include ★これを追加 ★
+from django.urls import path, include # ★これを追加 ★
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('titanic/', include('titanic_search_app.urls')), ★これを追加 ★
+    path('titanic/', include('titanic_search_app.urls')), # ★これを追加 ★
 ]
 ```
 
